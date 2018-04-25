@@ -4,6 +4,7 @@ const http = require('http');
 const cowsay = require('cowsay');
 const bodyParser = require('./body-parser');
 const faker = require('faker');
+const logger = require('./logger');
 
 const server = module.exports = {};
 
@@ -25,6 +26,24 @@ const app = http.createServer((req, res) => {
         }
         const cowsayMessage = cowsay.say({ text: msg });
         res.write(`<body><h1> cowsay </h1><pre>${cowsayMessage}</pre></body>`);
+        res.end();
+        return undefined;
+      }
+
+      if (parsedRequest.method === 'GET' && parsedRequest.url.pathname === '/api/cowsay') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        let msg = parsedRequest.url.query.text;
+        if (!parsedRequest.url.query.text) {
+          msg = faker.random.word();
+        }
+        res.write(JSON.stringify({ text: msg }));
+        res.end();
+        return undefined;
+      }
+
+      if (parsedRequest.method === 'POST' && parsedRequest.url.pathname === '/cowsay') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.write(JSON.stringify(parsedRequest.body));
         res.end();
         return undefined;
       }

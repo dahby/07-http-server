@@ -11,6 +11,7 @@ describe('VALID requests to the API', () => {
   describe('GET /', () => {
     test('response should have status 200', () => {
       return superagent.get(':5000/').then((res) => {
+        console.log(res.body);
         expect(res.status).toEqual(200);
       });
     });
