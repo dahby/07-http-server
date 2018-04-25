@@ -4,7 +4,6 @@ const http = require('http');
 const cowsay = require('cowsay');
 const bodyParser = require('./body-parser');
 const faker = require('faker');
-const logger = require('./logger');
 
 const server = module.exports = {};
 
